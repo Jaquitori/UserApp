@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./EditUser.css";
 
@@ -8,6 +8,11 @@ export default function EditUser(props) {
     lastName: "",
     age: ""
   });
+  let [showMessageObj, updateShowMessageObj] = useState({
+    showMessage: false,
+    name: ""
+  });
+  const dismissTimeout = useRef(null);
 
   useEffect(() => {
     function getContact() {
@@ -42,13 +47,24 @@ export default function EditUser(props) {
     axios
       .post("http://localhost:4000/contact/update/" + id, contact)
       .then(res => console.log(res.data));
+    // window.location.reload();
+  }
 
+  function onDismiss() {
+    updateShowMessageObj({ ...showMessageObj, showMessage: false });
+    clearInterval(dismissTimeout.current);
     props.history.push("/listContact");
-    window.location.reload();
+  }
+
+  function changeShowMessage(name, id) {
+    updateShowMessageObj({ ...showMessageObj, name, id, showMessage: true });
+    dismissTimeout.current = setTimeout(() => {
+      updateShowMessageObj({ ...showMessageObj, showMessage: false });
+    }, 10000);
   }
 
   return (
-    <div style={{ marginTop: 0 }}>
+    <div className="container">
       <nav>
         <h1>
           {" "}
@@ -84,8 +100,25 @@ export default function EditUser(props) {
           onChange={onChangeInput}
           name={"age"}
         />
-        <input type="submit" value="SAVE" className="btn btn-primary" />
+        <input
+          type="submit"
+          value="SAVE"
+          className="btn btn-primary"
+          onClick={() =>
+            changeShowMessage(
+              contact.firstName + " " + contact.lastName,
+              contact._id
+            )
+          }
+        />
       </form>
+
+      {showMessageObj.showMessage && (
+        <div className="update_user_status">
+          <h5>User "{showMessageObj.name}" updated</h5>
+          <button onClick={onDismiss}> DISMISS </button>
+        </div>
+      )}
     </div>
   );
 }

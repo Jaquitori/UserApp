@@ -7,12 +7,15 @@ export default function ListContact(props) {
   const [contact, updateContact] = useState([]);
   let [showMessageObj, updateShowMessageObj] = useState({
     showMessage: false,
-    name: "",
-    deleted: false
+    name: ""
   });
-  const deleteTimeot = useRef(null);
+  const dismissTimeout = useRef(null);
 
   useEffect(() => {
+    listContact();
+  }, []);
+
+  function listContact() {
     axios
       .get("http://localhost:4000/contact")
       .then(response => {
@@ -22,37 +25,33 @@ export default function ListContact(props) {
       .catch(function(error) {
         console.log(error);
       });
-  }, []);
-
-  function messageBar() {
-    if (showMessageObj.showMessage) {
-      setTimeout(() => {
-        updateShowMessageObj({ showMessage: false });
-        if (showMessageObj.deleted) {
-          axios
-            .delete("http://localhost:4000/contact/delete/" + showMessageObj.id)
-            .then(console.log("Deleted"));
-          window.location.reload();
-        }
-        //window.location.reload();
-      }, 5000);
-
-      return (
-        <div className="user_status">
-          <h5>User "{showMessageObj.name}" deleted</h5>
-          <button onClick={onDismiss}> DISMISS </button>
-        </div>
-      );
-    }
   }
 
   function onDismiss() {
-    updateShowMessageObj({ deleted: false });
-    console.log(updateShowMessageObj);
+    updateShowMessageObj({ ...showMessageObj, showMessage: false });
+    clearInterval(dismissTimeout.current);
   }
 
   function changeShowMessage(name, id) {
-    updateShowMessageObj({ showMessage: true, name, deleted: true, id });
+    updateShowMessageObj({ ...showMessageObj, name, id, showMessage: true });
+    axios
+      .delete(`http://localhost:4000/contact/delete/${id}`)
+      .then(() => {
+        updateShowMessageObj(
+          prev => (
+            listContact(),
+            {
+              ...prev,
+              showMessage: true
+            }
+          )
+        );
+
+        dismissTimeout.current = setTimeout(() => {
+          updateShowMessageObj({ ...showMessageObj, showMessage: false });
+        }, 10000);
+      })
+      .catch(err => console.error(err));
   }
 
   return (
@@ -66,7 +65,12 @@ export default function ListContact(props) {
       <a href="/addNewUser" className="user_list_add">
         <div className="add_plus">+</div>
       </a>
-      {messageBar()}
+      {showMessageObj.showMessage && (
+        <div className="user_status">
+          <h5>User "{showMessageObj.name}" deleted</h5>
+          <button onClick={onDismiss}> DISMISS </button>
+        </div>
+      )}
     </div>
   );
 }

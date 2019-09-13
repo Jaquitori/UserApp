@@ -1,30 +1,31 @@
-html, body {
-    font-family: "Ubuntu";
-    height: 100%;
-    overflow: auto;
-  }
-  
-  .all {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
+html,
+body {
+  font-family: "Ubuntu";
+  height: 100%;
+  overflow: auto;
+}
+
+.all {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
 nav {
-    background: #17A0FB;
-    box-shadow: 2px 2px 4px rgba(164, 164, 164, 0.25);
-    overflow: hidden;
-    position: relative;
-    margin-bottom: 16px;
+  background: #17a0fb;
+  box-shadow: 2px 2px 4px rgba(164, 164, 164, 0.25);
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 16px;
 }
 
 h1 {
-    font-style: normal;
-    font-weight: 500;
-    line-height: 21px;
-    color: #FFFFFF;
-    font-size: 18px;
-    margin: 12px 16px 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  color: #ffffff;
+  font-size: 18px;
+  margin: 12px 16px 11px;
 }
 scroll-container {
   height: auto;
@@ -37,16 +38,17 @@ h2 {
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
-  color: #5A5A5A;
+  color: #5a5a5a;
   margin: 0px 15px;
 }
 
-input[type=text], select {
+input[type="text"],
+select {
   height: 32px;
   /* min-width: 328px; */
   width: 92%;
-  background: #FFFFFF;
-  border: 1px solid #D1D1D1;
+  background: #ffffff;
+  border: 1px solid #d1d1d1;
   padding: 12px 9px 10px;
   margin: 8px 16px;
   display: inline-block;
@@ -55,24 +57,24 @@ input[type=text], select {
   font-weight: 500;
   font-size: 10px;
   line-height: 11px;
-  color: #5A5A5A;
+  color: #5a5a5a;
 }
 
-input[type=submit] {
+input[type="submit"] {
   left: 314px;
-  color: #17A0FB;
+  color: #17a0fb;
   cursor: pointer;
-  background:none;
-  border:none;
+  background: none;
+  border: none;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
   margin: 8px 16px 0px auto;
-  display:block;
+  display: block;
 }
 
-.user_status {
+.update_user_status {
   position: sticky;
   background: #676767;
   box-shadow: 2px 2px 4px rgba(164, 164, 164, 0.25);
@@ -89,9 +91,9 @@ h5 {
   font-weight: 500;
   font-size: 10px;
   line-height: 11px;
-  color: #FFFFFF;
+  color: #ffffff;
   justify-content: flex-start;
-  margin-left: 8px;
+  margin: 16px;
 }
 
 button {
@@ -99,17 +101,16 @@ button {
   font-weight: 500;
   font-size: 10px;
   line-height: 11px;
-  color: #8FD2FF;
-  background:none;
-  border:none;
-  margin:0;
+  color: #8fd2ff;
+  background: none;
+  border: none;
+  margin: 0;
   cursor: pointer;
   margin-left: auto;
   margin-right: 8px;
 }
 
-@media (min-width: 768px){
-    input[type=text], select {
-      width: 97%
-  }
+.container {
+  min-height: 100vh;
+  padding: 0;
 }
